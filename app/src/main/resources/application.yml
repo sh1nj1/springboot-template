@@ -1,0 +1,53 @@
+
+spring:
+  application:
+    name: ${app.name}
+  profiles:
+    active: local
+  security:
+    user:
+      name: admin
+      password: admin
+      roles: admin
+  datasource:
+    url: ${app.db.url}
+    username: ${app.db.username}
+    password: ${app.db.password}
+    hikari:
+      connection-test-query: select 1 from dual
+  session:
+    store-type: none
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+    properties.hibernate:
+      auto_quote_keyword: true
+      format_sql: true
+    open-in-view: false
+
+app:
+  name: Springboot Server
+  doc:
+    title: ${app.name} API
+    desc: API Documentation
+    version: 0.0.1
+  db:
+    url: jdbc:mysql://localhost/test_db?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&serverTimezone=Asia/Seoul&useSSL=false
+    username: test_user
+    password: test_user_password
+  security:
+    cors:
+      allowed-origins: http*://localhost:*, http*://192.168.0.*:*
+    white-listed-paths: /auth/**, /public/**, /error/**, /example/**, /client/api/**
+    docs-api-paths: /*/api-docs/**, /*/api-docs*, /swagger-ui.html, /swagger-ui/*
+
+logging:
+  level:
+    root: info
+    # show jpa sqls and parameter values in log
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.type.descriptor.sql.BasicExtractor: trace

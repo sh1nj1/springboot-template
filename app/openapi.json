@@ -1,0 +1,521 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Springboot Server API",
+    "description": "API Documentation",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
+  "paths": {
+    "/example/example-users/{id}": {
+      "put": {
+        "tags": [
+          "example-user-endpoint"
+        ],
+        "summary": "예제사용자를 업데이트한다.",
+        "description": "예제사용자를 업데이트한다.",
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "예제사용자의 아이디",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "업데이트할 사용자 데이터",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExampleUserUpdateModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExampleUserResponseModel"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "delete": {
+        "tags": [
+          "example-user-endpoint"
+        ],
+        "summary": "예제사용자를 삭제한다.",
+        "description": "예제사용자를 삭제한다.",
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "예제사용자의 아이디",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": []
+      }
+    },
+    "/example/example-users/": {
+      "get": {
+        "tags": [
+          "example-user-endpoint"
+        ],
+        "summary": "List",
+        "description": "List",
+        "operationId": "list",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageExampleUserResponseModel"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "tags": [
+          "example-user-endpoint"
+        ],
+        "summary": "Create new User",
+        "description": "Create new User",
+        "operationId": "create",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExampleUserCreateModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExampleUserResponseModel"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/client/api/auth/login": {
+      "post": {
+        "tags": [
+          "client-auth-entpoint"
+        ],
+        "summary": "Do login",
+        "description": "Do login",
+        "operationId": "auth",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginModel"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponseModel"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/example/example-users/test/hello": {
+      "get": {
+        "tags": [
+          "example-user-endpoint"
+        ],
+        "summary": "사용자 이름을 받아 사용자에 대한 인사말을 리턴한다.",
+        "description": "사용자 이름을 받아 사용자에 대한 인사말을 리턴한다.",
+        "operationId": "hello",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "사용자 이름",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "사용자에 대한 인사말",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/example/example-users/test/hello2": {
+      "get": {
+        "tags": [
+          "example-user-endpoint"
+        ],
+        "summary": "사용자 이름을 받아 사용자에 대한 인사말을 리턴한다.",
+        "description": "사용자 이름을 받아 사용자에 대한 인사말을 리턴한다.",
+        "operationId": "hello_1",
+        "parameters": [
+          {
+            "name": "userName",
+            "in": "query",
+            "description": "사용자 인사말과 사용자명",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/UserName"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "사용자명과 인사말",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserName"
+              },
+              "examples": {
+                "soonoh": {
+                  "description": "soonoh",
+                  "value": {
+                    "greeting": "Hello",
+                    "name": "Soonoh"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "사용자명과 인사말",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserName"
+                },
+                "examples": {
+                  "soonoh": {
+                    "description": "soonoh",
+                    "value": {
+                      "greeting": "Hello",
+                      "name": "Soonoh"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ExampleUserUpdateModel": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "업데이트할 사용자 이름"
+          }
+        },
+        "description": "예제사용자 업데이트 요청"
+      },
+      "ExampleUserContactModel": {
+        "required": [
+          "contactType",
+          "name",
+          "value"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "contactType": {
+            "type": "string",
+            "enum": [
+              "MOBILE",
+              "LANDLINE",
+              "EMAIL"
+            ]
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "description": ""
+      },
+      "ExampleUserResponseModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExampleUserContactModel"
+            }
+          }
+        },
+        "description": "예제사용자 응답 모델"
+      },
+      "ExampleUserCreateModel": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExampleUserContactModel"
+            }
+          }
+        },
+        "description": "예제사용자 생성 요청"
+      },
+      "LoginModel": {
+        "required": [
+          "account",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "description": ""
+      },
+      "LoginResponseModel": {
+        "required": [
+          "accessToken",
+          "account"
+        ],
+        "type": "object",
+        "properties": {
+          "account": {
+            "type": "string"
+          },
+          "accessToken": {
+            "type": "string"
+          }
+        },
+        "description": ""
+      },
+      "UserName": {
+        "type": "object",
+        "properties": {
+          "greeting": {
+            "type": "string",
+            "description": "인사말"
+          },
+          "name": {
+            "type": "string",
+            "description": "이름"
+          }
+        },
+        "description": "사용자 이름과 인사말"
+      },
+      "PageExampleUserResponseModel": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExampleUserResponseModel"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PageableObject": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paged": {
+            "type": "boolean"
+          },
+          "unpaged": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SortObject": {
+        "type": "object",
+        "properties": {
+          "empty": {
+            "type": "boolean"
+          },
+          "sorted": {
+            "type": "boolean"
+          },
+          "unsorted": {
+            "type": "boolean"
+          }
+        },
+        "description": ""
+      }
+    },
+    "securitySchemes": {
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

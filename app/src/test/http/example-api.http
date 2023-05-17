@@ -1,0 +1,41 @@
+
+### Test Hello
+
+GET {{url}}/example/hello?name=test
+
+### Get Example User
+
+GET {{url}}/example/example-users/
+
+### Create Example User
+
+POST {{url}}/example/example-users/
+Content-Type: application/json
+
+{
+  "name": "soonoh",
+  "contacts": [
+    {
+      "name": "mobile1",
+      "contactType": "MOBILE",
+      "value": "01012345678"
+    }
+  ]
+}
+
+> {%
+    client.global.set("createdExampleUserId", response.body.id);
+%}
+
+### Update Example User
+
+PUT {{url}}/example/example-users/1
+Content-Type: application/json
+
+{
+  "name": "updated"
+}
+
+### Delete Example User
+
+DELETE {{url}}/example/example-users/{{createdExampleUserId}}

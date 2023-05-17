@@ -1,0 +1,15 @@
+
+### Login
+
+POST {{url}}/client/api/auth/login
+Content-Type: application/json
+
+{
+    "account": "1234",
+    "password": "1234"
+}
+
+> {%
+    client.global.set("account", response.body.account);
+    client.global.set("accessToken", response.body.accessToken);
+%}

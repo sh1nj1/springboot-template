@@ -1,0 +1,120 @@
+import org.springdoc.openapi.gradle.plugin.OpenApiGeneratorTask
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.10'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'org.springdoc.openapi-gradle-plugin' version "1.6.0"
+	id 'jacoco'
+	id "com.github.sakata1222.jacoco-markdown" version "1.4.0"
+	id 'groovy'
+}
+
+group = 'com.vrerv.springboottmplate.server'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+def openapiVersion = '1.7.0'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	maven {
+		url = 'https://jitpack.io'
+	}
+}
+
+sourceSets {
+	test {
+		java {
+			srcDirs = ['src/test/java']
+		}
+		groovy {
+			srcDirs = ['src/test/groovy']
+		}
+		resources {
+			srcDirs = ['src/test/resources']
+		}
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
+
+openApi {
+	outputDir.set(file("./"))
+}
+
+jacoco {
+	toolVersion = '0.8.8'
+}
+
+jacocoTestReportMarkdown {
+	outputMd file("./test-coverage.md")
+}
+
+test.finalizedBy jacocoTestReport
+
+dependencies {
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+	// end lombok
+	implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+	// jpa hibernate
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	implementation 'com.vladmihalcea:hibernate-types-55:2.21.1'
+	implementation 'io.hypersistence:hypersistence-utils-hibernate-55:3.3.1'
+	implementation 'mysql:mysql-connector-java:8.0.32'
+	// end jpa hibernate
+
+	// openapi doc
+	implementation "org.springdoc:springdoc-openapi-ui:${openapiVersion}"
+	implementation "org.springdoc:springdoc-openapi-security:${openapiVersion}"
+	annotationProcessor 'com.github.therapi:therapi-runtime-javadoc-scribe:0.13.0'
+	implementation "org.springdoc:springdoc-openapi-javadoc:${openapiVersion}"
+	// end openapi doc
+
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+	// --- Test dependencies --- //
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.hsqldb:hsqldb:2.7.1'
+	testImplementation 'org.jacoco:org.jacoco.core:0.8.8'
+
+	// add spock test
+	testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
+	testImplementation 'org.codehaus.groovy:groovy-all:3.0.9'
+
+}
+
+tasks.named('build') {
+	dependsOn tasks.withType(OpenApiGeneratorTask.class)
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
