@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @SecurityRequirements // override to be not required
 @RestController
 @RequestMapping("/client/api/auth")
-public class ClientAuthEntpoint {
+public class ClientAuthEndpoint {
 
 	private final UserService service;
 
