@@ -26,9 +26,11 @@ spring:
       auto_quote_keyword: true
       format_sql: true
     open-in-view: false
+    # show-sql: true
 
 app:
   name: Springboot Server
+  debug: true
   doc:
     title: ${app.name} API
     desc: API Documentation

@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import javax.transaction.Transactional;
 
+import com.vrerv.springboottemplate.server.feature.user.AuthenticationRejectedException;
 import com.vrerv.springboottemplate.server.feature.user.User;
 import com.vrerv.springboottemplate.server.feature.user.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -69,12 +70,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		};
 	}
 
-	public UserDetails authenticate(String userId, String password) throws UsernameNotFoundException, AuthenticationCredentialsNotFoundException {
-		UserDetails user = loadUserByUsername(userId);
-		boolean matchedPassword = passwordEncoder.matches(password, user.getPassword());
-		if(!matchedPassword) {
-			throw new AuthenticationCredentialsNotFoundException("Failed to authenticate.");
+	public UserDetails authenticate(String userId, String password) throws AuthenticationRejectedException {
+		try {
+			UserDetails user = loadUserByUsername(userId);
+			boolean matchedPassword = passwordEncoder.matches(password, user.getPassword());
+			if(!matchedPassword) {
+				throw new AuthenticationRejectedException("Failed to authenticate.", null);
+			}
+			return user;
+		} catch (UsernameNotFoundException e) {
+			throw new AuthenticationRejectedException("Failed to authenticate.", e);
 		}
-		return user;
 	}
 }

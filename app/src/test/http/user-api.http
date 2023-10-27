@@ -13,3 +13,22 @@ Content-Type: application/json
     client.global.set("account", response.body.account);
     client.global.set("accessToken", response.body.accessToken);
 %}
+
+### Login Failed - invalid credentials
+
+POST {{url}}/client/api/auth/login
+Content-Type: application/json
+
+{
+  "account": "$$notExist$$",
+  "password": "$$notExist$$"
+}
+
+### Login Failed - Empty Request
+
+POST {{url}}/client/api/auth/login
+Content-Type: application/json
+Accept-Language: ko-KR
+
+{
+}

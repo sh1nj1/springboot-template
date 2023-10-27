@@ -44,6 +44,16 @@
           "required": true
         },
         "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseServerError"
+                }
+              }
+            }
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -77,6 +87,16 @@
           }
         ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseServerError"
+                }
+              }
+            }
+          },
           "200": {
             "description": "OK"
           }
@@ -124,6 +144,16 @@
           }
         ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseServerError"
+                }
+              }
+            }
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -155,6 +185,16 @@
           "required": true
         },
         "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseServerError"
+                }
+              }
+            }
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -172,7 +212,7 @@
     "/client/api/auth/login": {
       "post": {
         "tags": [
-          "client-auth-entpoint"
+          "client-auth-endpoint"
         ],
         "summary": "Do login",
         "description": "Do login",
@@ -188,6 +228,16 @@
           "required": true
         },
         "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseServerError"
+                }
+              }
+            }
+          },
           "200": {
             "description": "OK",
             "content": {
@@ -222,6 +272,16 @@
           }
         ],
         "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseServerError"
+                }
+              }
+            }
+          },
           "200": {
             "description": "사용자에 대한 인사말",
             "content": {
@@ -275,6 +335,16 @@
           }
         },
         "responses": {
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseServerError"
+                }
+              }
+            }
+          },
           "default": {
             "description": "사용자명과 인사말",
             "content": {
@@ -301,6 +371,41 @@
   },
   "components": {
     "schemas": {
+      "ResponseServerError": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "payload": {
+            "$ref": "#/components/schemas/ServerError"
+          }
+        },
+        "description": ""
+      },
+      "ServerError": {
+        "type": "object",
+        "properties": {
+          "trackingId": {
+            "type": "string",
+            "description": "tracking id for debugging"
+          },
+          "code": {
+            "type": "string",
+            "description": "error code to identify error type"
+          },
+          "message": {
+            "type": "string",
+            "description": "user message for this error"
+          },
+          "debugMessage": {
+            "type": "string",
+            "description": "debug message for this error, you can include more detailed information for debugging, this should not be used for user message."
+          }
+        },
+        "description": ""
+      },
       "ExampleUserUpdateModel": {
         "required": [
           "name"
@@ -456,12 +561,12 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
-          },
           "numberOfElements": {
             "type": "integer",
             "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
           },
           "empty": {
             "type": "boolean"
@@ -478,6 +583,12 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
+          "paged": {
+            "type": "boolean"
+          },
+          "unpaged": {
+            "type": "boolean"
+          },
           "pageNumber": {
             "type": "integer",
             "format": "int32"
@@ -485,12 +596,6 @@
           "pageSize": {
             "type": "integer",
             "format": "int32"
-          },
-          "paged": {
-            "type": "boolean"
-          },
-          "unpaged": {
-            "type": "boolean"
           }
         }
       },
