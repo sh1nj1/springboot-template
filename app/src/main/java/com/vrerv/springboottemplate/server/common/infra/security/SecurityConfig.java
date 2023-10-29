@@ -3,6 +3,9 @@ package com.vrerv.springboottemplate.server.common.infra.security;
 import java.util.Collections;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vrerv.springboottemplate.server.common.infra.error.FilterChainExceptionHandlingFilter;
+import com.vrerv.springboottemplate.server.common.infra.error.GlobalErrorHandlingControllerAdvice;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -34,6 +38,8 @@ public class SecurityConfig {
 
 	private final JwtTokenProvider jwtTokenProvider;
 	private final UserTokenService userTokenService;
+	private final GlobalErrorHandlingControllerAdvice handler;
+	private final ObjectMapper om;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -54,6 +60,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, userTokenService), UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(new FilterChainExceptionHandlingFilter(handler, om), FilterSecurityInterceptor.class)
                 .build();
     }
 
