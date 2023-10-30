@@ -1,6 +1,7 @@
 package com.vrerv.springboottemplate.server.common.infra.error;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -38,6 +39,8 @@ public class FilterChainExceptionHandlingFilter extends GenericFilterBean {
 			Response<ServerError> serverErrorResponse = handler.resolveException(httpRequest, request.getLocale(), e);
 			httpResponse.setStatus(serverErrorResponse.getStatus());
 			httpResponse.setHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE);
+			httpResponse.setCharacterEncoding(StandardCharsets.UTF_8.name());
+			httpResponse.setLocale(request.getLocale());
 			response.getWriter().write(om.writeValueAsString(serverErrorResponse));
 		}
 	}
