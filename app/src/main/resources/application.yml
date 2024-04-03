@@ -14,7 +14,7 @@ spring:
     username: ${app.db.username}
     password: ${app.db.password}
     hikari:
-      connection-test-query: select 1 from dual
+      connection-test-query: select 1
   session:
     store-type: none
   jpa:
