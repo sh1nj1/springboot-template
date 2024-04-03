@@ -1,8 +1,8 @@
 |Type       |Missed/Total|Coverage|
 |:---       |        ---:|    ---:|
-|INSTRUCTION|   2680/3524|  23.95%|
+|INSTRUCTION|   2686/3530|  23.91%|
 |BRANCH     |     305/326|   6.44%|
-|LINE       |     299/437|  31.58%|
+|LINE       |     301/439|  31.44%|
 
 Class list with less coverage (Worst 5)
 

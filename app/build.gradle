@@ -50,6 +50,7 @@ test {
 
 openApi {
 	outputDir.set(file("./"))
+	apiDocsUrl.set("http://localhost:8081/v3/api-docs")
 }
 
 jacoco {
@@ -86,8 +87,12 @@ dependencies {
 
 	implementation 'com.vladmihalcea:hibernate-types-55:2.21.1'
 	implementation 'io.hypersistence:hypersistence-utils-hibernate-55:3.3.1'
-	implementation 'mysql:mysql-connector-java:8.0.32'
 	// end jpa hibernate
+
+	// db jdbc drivers
+	implementation 'com.mysql:mysql-connector-j:8.2.0'
+	implementation 'com.h2database:h2:2.2.224'
+	implementation 'com.microsoft.sqlserver:mssql-jdbc:12.6.1.jre11'
 
 	// openapi doc
 	implementation "org.springdoc:springdoc-openapi-ui:${openapiVersion}"

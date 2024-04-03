@@ -31,8 +31,6 @@ Springboot 를 사용하여 서버를 개발하기 공통 모듈과 개발 가�
 * IntelliJ - 코드를 개발한다. 개발자의 역량에 따라 다른 개발툴을 사용하여도 무난하다.
 * MySQL DB - 8.0.32 이상을 로컬에 설치하여, 로컬 개발시 사용한다.
 
-####
-
 ### Java 설치
 
 * java 17 설치 - [sdkman](https://sdkman.io/) 으로 설치한다.
@@ -44,13 +42,34 @@ Springboot 를 사용하여 서버를 개발하기 공통 모듈과 개발 가�
 sdk install java 17.0.5-amzn
 ```
 
-### MySQL 준비
+### DB
+
+#### MSSQL 
+
+MSSQL - docker 사용
+
+* `docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=P@ssw0rd" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest`
+
+Mac book M1 docker
+
+* `docker run --cap-add SYS_PTRACE -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=P@ssw0rd" -p 1433:1433 --name sqledge -d mcr.microsoft.com/azure-sql-edge`
+
+```sql
+create database test_db;
+use test_db;
+
+create login test_user with password = 'P@ssw0rd';
+create user test_user for login test_user;
+grant select, insert, update, delete, alter, references on DATABASE::test_db to test_user;
+```
+
+#### MySQL 준비
 
 * MySQL 을 local 에 설치한다. 
 * 로컬 구동을 위한 데이터베이스와 계정을 생성한다.
 ```sql
 CREATE DATABASE test_db;
-CREATE USER 'test_user'@'localhost' IDENTIFIED WITH mysql_native_password BY 'test_user_password';
+CREATE USER 'test_user'@'localhost' IDENTIFIED WITH mysql_native_password BY 'P@ssw0rd';
 GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, INDEX, DROP, ALTER, REFERENCES, CREATE TEMPORARY TABLES, LOCK TABLES ON test_db.* TO 'test_user'@'localhost';
 GRANT FILE ON *.* TO 'test_user'@'localhost';
 FLUSH PRIVILEGES;

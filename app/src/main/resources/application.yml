@@ -33,8 +33,12 @@ spring:
   web:
     resources:
       add-mappings: false
+server:
+  port: ${app.server.port}
 
 app:
+  server:
+    port: 8081
   name: Springboot Server
   debug: true
   doc:
@@ -42,9 +46,9 @@ app:
     desc: API Documentation
     version: 0.0.1
   db:
-    url: jdbc:mysql://localhost/test_db?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&serverTimezone=Asia/Seoul&useSSL=false
+    url: jdbc:h2:~/test_db;AUTO_SERVER=TRUE;MODE=MYSQL;DATABASE_TO_LOWER=TRUE
     username: test_user
-    password: test_user_password
+    password: P@ssw0rd
   security:
     cors:
       allowed-origins: http*://localhost:*, http*://192.168.0.*:*
@@ -59,3 +63,23 @@ logging:
     org.hibernate.type: trace
     org.hibernate.type.descriptor.sql.BasicBinder: trace
     org.hibernate.type.descriptor.sql.BasicExtractor: trace
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: mysql
+app:
+  db:
+    url: jdbc:mysql://localhost/test_db?useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8&serverTimezone=Asia/Seoul&useSSL=false
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: mssql
+app:
+  db:
+    url: jdbc:sqlserver://localhost:1433;database=test_db;encrypt=true;trustServerCertificate=true
