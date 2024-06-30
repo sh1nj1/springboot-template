@@ -1,4 +1,6 @@
 import org.springdoc.openapi.gradle.plugin.OpenApiGeneratorTask
+import com.vrerv.gradle.plugin.gsheet.download.DownloadConfig
+import com.vrerv.gradle.plugin.gsheet.download.GSheetDownloadTask
 
 plugins {
 	id 'java'
@@ -8,6 +10,7 @@ plugins {
 	id 'jacoco'
 	id "com.github.sakata1222.jacoco-markdown" version "1.4.0"
 	id 'groovy'
+	id "com.vrerv.gradle.plugin.gsheet.download" version "0.1.4"
 }
 
 group = 'com.vrerv.springboottmplate.server'
@@ -63,6 +66,21 @@ jacocoTestReportMarkdown {
 
 test.finalizedBy jacocoTestReport
 
+gsheetDownloadConfig {
+
+	googleApplicationCredentials = System.getenv("GOOGLE_APPLICATION_CREDENTIALS_2")
+	outputDir = file("src/main/resources/fixture")
+	downloads = [
+	        new DownloadConfig(
+					"1k8ezAzSKj22WBG31EMGvMfVq5tnZXQvT6ZDoP0Vv1vk",
+					"Sheet1",
+					"A2",
+					"B10",
+					"users.csv"
+			)
+	]
+}
+
 dependencies {
 
 	// lombok
@@ -103,6 +121,8 @@ dependencies {
 
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
+	implementation 'com.opencsv:opencsv:5.8'
+
 	// --- Test dependencies --- //
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -114,6 +134,11 @@ dependencies {
 	testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
 	testImplementation 'org.codehaus.groovy:groovy-all:3.0.9'
 
+}
+
+
+tasks.named("classes") {
+	dependsOn tasks.withType(GSheetDownloadTask.class)
 }
 
 tasks.named('build') {
